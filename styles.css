@@ -673,7 +673,7 @@ border: none;
 outline: none;
 border-radius: 4px;
 background: #38b6ff;
-position: absolute;
+position: flex;
 top: 400px;
 left: 30px;
 font-size: 1rem;
