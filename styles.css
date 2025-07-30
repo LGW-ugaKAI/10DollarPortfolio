@@ -680,117 +680,51 @@ background-color: #141414;
 
 @media screen and (max-width: 480px) {
 
+  .services {
+    height: auto;
+    padding: 1rem;
+  }
+
+  .services h1 {
+    font-size: 1.2rem;
+  }
+
   .services h2 {
     position: static !important;
-    top: auto !important;
-    left: auto !important;
     margin-top: 0;
     margin-bottom: 0.5rem;
     width: auto;
+    font-size: 1.2rem;
   }
 
   .services__card {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 450px; /* or your desired height */
-}
+    width: 300px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
 
-.services__card h2 {
-  margin-bottom: 0.5rem;
-  position: static;   /* ensure not absolute */
-}
+  .services__card h2 {
+    margin-bottom: 0.5rem;
+    position: static;
+    font-size: 1.1rem;
+  }
 
-.services__card > div {
-  margin-top: 0;
-}
   .services__card p {
-      top: 330px; /* Move text up */
-      left: 20px;
-      font-size: 1rem;
-    }
-    .services__card button {
-      top: 380px; /* Move button below text */
-      left: 20px;
-      width: 80%; /* Make button fit better */
-      font-size: 1rem;
-    }
-    .services__card {
-      height: 450px; /* Reduce card height so positions fit */
-    }
-
-.services__card:nth-child(2) p {
-      top: 330px; /* Move text up */
-      left: 20px;
-      font-size: 1rem;
-    }
-    .services__card button {
-      top: 380px; /* Move button below text */
-      left: 20px;
-      width: 80%; /* Make button fit better */
-      font-size: 1rem;
-    }
-    .services__card {
-      height: 450px; /* Reduce card height so positions fit */
-    }
-
-  .services__card:nth-child(3) p {
-      top: 330px; /* Move text up */
-      left: 20px;
-      font-size: 1rem;
-    }
-    .services__card button {
-      top: 380px; /* Move button below text */
-      left: 20px;
-      width: 80%; /* Make button fit better */
-      font-size: 1rem;
-    }
-    .services__card {
-      height: 450px; /* Reduce card height so positions fit */
-    }
-
-  .services__card:nth-child(4) p {
-      top: 330px; /* Move text up */
-      left: 20px;
-      font-size: 1rem;
-    }
-    .services__card button {
-      top: 380px; /* Move button below text */
-      left: 20px;
-      width: 80%; /* Make button fit better */
-      font-size: 1rem;
-    }
-    .services__card {
-      height: 450px; /* Reduce card height so positions fit */
-    }
-  
-    .services {
-        height: 1400px;
-
-    }
-
-    .services h1 {
-        font-size: 1.2rem;
-        
-    }
-
-    .services__card {
-
-        width: 300px;
-    }
-
-  .services__card:nth-child(2) {
-        width: 300px;  
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    position: static;
   }
 
-  .services__card:nth-child(3) {
-        width: 300px;  
+  .services__card button {
+    font-size: 1rem;
+    width: 80%;
+    align-self: center;
+    margin-top: 0.5rem;
   }
-
-  .services__card:nth-child(4) {
-        width: 300px;  
-  }
-
 }
 
 /* footer css */
