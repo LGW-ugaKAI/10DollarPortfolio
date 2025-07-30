@@ -686,7 +686,8 @@ background-color: #141414;
   }
 
   .services h1 {
-    font-size: 1.2rem;
+    text-align: center;
+    font-size: 1.5rem;
   }
 
   .services h2 {
