@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources | Ten$Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/c529854b47.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar__container">
+        <img src="images/2 long (1).png" alt="10 Dollar Portfolio" id="navbar__logo">
+        <img src="images/2 (1).png" alt="10 Dollar Portfolio" id="navbar__logo-mobile">
+        <div class="navbar__toggle" id="mobile-menu">
+          <span class="bar"></span>  
+          <span class="bar"></span>  
+          <span class="bar"></span>  
+        </div>
+        <ul class="navbar__menu">
+            <li class="navbar__item">
+                <a href="/" class="navbar__links">Home</a>
+            </li>
+            <li class="navbar__item">
+                <a href="/resources.html" class="navbar__links">Resources</a>
+            </li>
+            <li class="navbar__item">
+                <a href="/about.html" class="navbar__links">About</a>
+            </li>
+            <li class="navbar__btn">
+                <a href="/start-investing.html" class="button">Start Investing</a>
+            </li>
+        </ul>
+    </div>
+  </nav>
+
+  <div class="main">
+    <div class="main__container">
+      <div class="main__content">
+        <h1>Resources</h1>
+        <p>Explore our curated guides, articles, and tools to help you invest smarter.</p>
+      </div>
+      <div class="main__img--container">
+            <img src="images/pic1.svg" alt="10 Dollar Portfolio" id="main__img">
+        </div>
+    </div>
+
+  </div>
+
+  <!-- Documents Section -->
+  <div class="documents-section">
+    <h2 class="documents-title">Documents</h2>
+    <p class="documents-main">Download helpful guides and resources for your investing journey:</p>
+    <ul class="documents-list">
+      <li><a href="pdfs/budget.pdf" target="_blank" class="documents-link">Budgeting Guide PDF</a></li>
+      <li><a href="pdfs/NetWorthWksht.pdf" target="_blank" class="documents-link">Net Worth PDF</a></li>
+      <li><a href="pdfs/IRA-Cheat-Sheet.pdf" target="_blank" class="documents-link">IRA Cheat Sheet PDF</a></li>
+    </ul>
+    <div style="margin-top:2rem;"></div>
+    <h2 class="documents-title">Investment Tracking</h2>
+    <a href="https://www.portfolioslicer.com/" target="_blank" class="documents-link">Portfolio Slicer Website</a>
+  </div>
+
+  <!-- Market Snapshot Widget -->
+
+  <!-- Market Update Title and Widget Side by Side -->
+  <div style="max-width: 600px; margin: 2rem auto 0 auto; text-align: center;">
+    <h2 class="market-snapshot-title">Market Update</h2>
+  </div>
+
+
+  <!-- VOO Market State and Price History Chart -->
+  <div class="voo-chart-container" style="max-width: 600px; margin: 2rem auto;">
+    <div id="voo-market-state-label" style="margin-bottom: 0.5rem;"></div>
+    <canvas id="vooChart"></canvas>
+  </div>
+
+
+  <!-- QQQ Market State and Price History Chart -->
+  <div class="voo-chart-container" style="max-width: 600px; margin: 2rem auto;">
+    <div id="qqq-market-state-label" style="margin-bottom: 0.5rem;"></div>
+    <canvas id="qqqChart"></canvas>
+  </div>
+
+  <!-- Stock Search Section -->
+  <div class="stock-search-section" style="max-width:600px; margin:2rem auto 0 auto; text-align:center;">
+    <input type="text" id="stockSymbolInput" placeholder="Enter stock symbol (e.g. AAPL, MSFT)" style="padding:0.7em 1em; font-size:1.1rem; border-radius:8px; border:1px solid #38b6ff; background:#181818; color:#fff; margin-right:0.5em; width:60%;">
+    <button id="searchStockBtn" style="padding:0.7em 2em; font-size:1.1rem; border-radius:8px; background:linear-gradient(90deg,#38b6ff 0%,#7cccfa 100%); color:#141414; font-weight:700; border:none; cursor:pointer;">Show Chart</button>
+    <div id="stock-search-error" style="color:red; margin-top:1em;"></div>
+  </div>
+  <!-- Searched Stock Chart -->
+  <div class="voo-chart-container" id="searched-stock-chart-container" style="max-width:600px; margin:2rem auto; display:none;">
+    <div id="searched-stock-market-state-label" style="margin-bottom:0.5rem;"></div>
+    <canvas id="searchedStockChart"></canvas>
+  </div>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+  const apiKey = 'ylB9x5pmYAPGJPGlLfJP1ZIMm6xgVweB';
+  // Current price fetch for VOO and QQQ
+
+
+  // VOO price history chart and market state
+  fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/VOO?serietype=line&apikey=${apiKey}`)
+    .then(res => res.json())
+    .then(data => {
+      const history = data.historical.slice(0, 30).reverse(); // last 30 days
+      const labels = history.map(day => day.date);
+      const prices = history.map(day => day.close);
+      // Market state calculation
+      const price_today = prices[prices.length - 1];
+      const price_30_days_ago = prices[0];
+      const percent_change = ((price_today - price_30_days_ago) / price_30_days_ago) * 100;
+      let market_state = '';
+      if (percent_change > 5) {
+        market_state = 'Bull Market';
+      } else if (percent_change < -5) {
+        market_state = 'Bear Market';
+      } else {
+        market_state = 'Sideways Market';
+      }
+      // Show market state above VOO chart
+      const vooLabel = document.getElementById('voo-market-state-label');
+      if (vooLabel) {
+        const stateColor = market_state === 'Bull Market' ? 'limegreen' : market_state === 'Bear Market' ? 'red' : '#ffd700';
+        vooLabel.innerHTML = `<span style="color:${stateColor}; font-weight:bold; font-size:1.2rem;">${market_state}</span>`;
+      }
+      // Chart
+      const ctx = document.getElementById('vooChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'VOO Close Price',
+            data: prices,
+            borderColor: '#38b6ff',
+            backgroundColor: 'rgba(56,182,255,0.1)',
+            tension: 0.2,
+            pointRadius: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false,
+              labels: { color: '#fff' }
+            },
+            title: {
+              display: true,
+              text: 'VOO (Vanguard S&P 500 ETF) - Last 30 Days',
+              color: '#fff',
+              font: { weight: 'bold', size: 18 }
+            },
+            tooltip: {
+              bodyColor: '#fff',
+              titleColor: '#fff',
+              backgroundColor: '#222',
+              borderColor: '#38b6ff',
+              borderWidth: 1
+            }
+          },
+          scales: {
+            x: {
+              display: true,
+              title: { display: false },
+              ticks: { color: '#fff' },
+              grid: { color: 'rgba(255,255,255,0.1)' }
+            },
+            y: {
+              display: true,
+              title: { display: false },
+              ticks: { color: '#fff' },
+              grid: { color: 'rgba(255,255,255,0.1)' }
+            }
+          }
+        }
+      });
+    })
+    .catch(err => {
+      console.error('Error fetching VOO history:', err);
+      document.getElementById('vooChart').replaceWith("<p style='color:red;'>Error loading chart</p>");
+    });
+
+  // QQQ price history chart and market state
+  fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/QQQ?serietype=line&apikey=${apiKey}`)
+    .then(res => res.json())
+    .then(data => {
+      const history = data.historical.slice(0, 30).reverse(); // last 30 days
+      const labels = history.map(day => day.date);
+      const prices = history.map(day => day.close);
+      // Market state calculation
+      const price_today = prices[prices.length - 1];
+      const price_30_days_ago = prices[0];
+      const percent_change = ((price_today - price_30_days_ago) / price_30_days_ago) * 100;
+      let market_state = '';
+      if (percent_change > 5) {
+        market_state = 'Bull Market';
+      } else if (percent_change < -5) {
+        market_state = 'Bear Market';
+      } else {
+        market_state = 'Sideways Market';
+      }
+      // Show market state above QQQ chart
+      const qqqLabel = document.getElementById('qqq-market-state-label');
+      if (qqqLabel) {
+        const stateColor = market_state === 'Bull Market' ? 'limegreen' : market_state === 'Bear Market' ? 'red' : '#ffd700';
+        qqqLabel.innerHTML = `<span style="color:${stateColor}; font-weight:bold; font-size:1.2rem;">${market_state}</span>`;
+      }
+      // Chart
+      const ctx = document.getElementById('qqqChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'QQQ Close Price',
+            data: prices,
+            borderColor: '#ffb638',
+            backgroundColor: 'rgba(255,182,56,0.1)',
+            tension: 0.2,
+            pointRadius: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false,
+              labels: { color: '#fff' }
+            },
+            title: {
+              display: true,
+              text: 'QQQ (NASDAQ 100 ETF) - Last 30 Days',
+              color: '#fff',
+              font: { weight: 'bold', size: 18 }
+            },
+            tooltip: {
+              bodyColor: '#fff',
+              titleColor: '#fff',
+              backgroundColor: '#222',
+              borderColor: '#ffb638',
+              borderWidth: 1
+            }
+          },
+          scales: {
+            x: {
+              display: true,
+              title: { display: false },
+              ticks: { color: '#fff' },
+              grid: { color: 'rgba(255,255,255,0.1)' }
+            },
+            y: {
+              display: true,
+              title: { display: false },
+              ticks: { color: '#fff' },
+              grid: { color: 'rgba(255,255,255,0.1)' }
+            }
+          }
+        }
+      });
+    })
+    .catch(err => {
+      console.error('Error fetching QQQ history:', err);
+      document.getElementById('qqqChart').replaceWith("<p style='color:red;'>Error loading chart</p>");
+    });
+
+  // Search stock chart
+  document.getElementById('searchStockBtn').addEventListener('click', function() {
+    const stockSymbol = document.getElementById('stockSymbolInput').value.trim().toUpperCase();
+    if (!stockSymbol) {
+      document.getElementById('stock-search-error').innerText = 'Please enter a stock symbol.';
+      return;
+    } else {
+      document.getElementById('stock-search-error').innerText = '';
+    }
+    // Fetch stock data
+    fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${stockSymbol}?serietype=line&apikey=${apiKey}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.symbol === undefined) {
+          document.getElementById('stock-search-error').innerText = 'Stock not found. Please check the symbol and try again.';
+          document.getElementById('searched-stock-chart-container').style.display = 'none';
+          return;
+        } else {
+          document.getElementById('stock-search-error').innerText = '';
+          document.getElementById('searched-stock-chart-container').style.display = 'block';
+        }
+        const history = data.historical.slice(0, 30).reverse(); // last 30 days
+        const labels = history.map(day => day.date);
+        const prices = history.map(day => day.close);
+        // Market state calculation
+        const price_today = prices[prices.length - 1];
+        const price_30_days_ago = prices[0];
+        const percent_change = ((price_today - price_30_days_ago) / price_30_days_ago) * 100;
+        let market_state = '';
+        if (percent_change > 5) {
+          market_state = 'Bull Market';
+        } else if (percent_change < -5) {
+          market_state = 'Bear Market';
+        } else {
+          market_state = 'Sideways Market';
+        }
+        // Show market state above searched stock chart
+        const searchedStockLabel = document.getElementById('searched-stock-market-state-label');
+        if (searchedStockLabel) {
+          const stateColor = market_state === 'Bull Market' ? 'limegreen' : market_state === 'Bear Market' ? 'red' : '#ffd700';
+          searchedStockLabel.innerHTML = `<span style="color:${stateColor}; font-weight:bold; font-size:1.2rem;">${market_state}</span>`;
+        }
+        // Chart
+        const ctx = document.getElementById('searchedStockChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: `${stockSymbol} Close Price`,
+              data: prices,
+              borderColor: '#ff6384',
+              backgroundColor: 'rgba(255,99,132,0.1)',
+              tension: 0.2,
+              pointRadius: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false,
+                labels: { color: '#fff' }
+              },
+              title: {
+                display: true,
+                text: `${stockSymbol} - Last 30 Days`,
+                color: '#fff',
+                font: { weight: 'bold', size: 18 }
+              },
+              tooltip: {
+                bodyColor: '#fff',
+                titleColor: '#fff',
+                backgroundColor: '#222',
+                borderColor: '#ff6384',
+                borderWidth: 1
+              }
+            },
+            scales: {
+              x: {
+                display: true,
+                title: { display: false },
+                ticks: { color: '#fff' },
+                grid: { color: 'rgba(255,255,255,0.1)' }
+              },
+              y: {
+                display: true,
+                title: { display: false },
+                ticks: { color: '#fff' },
+                grid: { color: 'rgba(255,255,255,0.1)' }
+              }
+            }
+          }
+        });
+      })
+      .catch(err => {
+        console.error('Error fetching stock history:', err);
+        document.getElementById('searchedStockChart').replaceWith("<p style='color:red;'>Error loading chart</p>");
+      });
+  });
+  </script>
+
+  <div class="footer__container">
+    <div class="footer__links">
+      <div class="footer__link--wrapper">
+        <div class="footer__link--items">
+          <h2>About Us</h2>
+          <a href="/">Our Mission and Values</a>
+          <a href="/">Our Team</a>
+          
+        </div>
+        <div class="footer__link--items">
+          <h2>Contact Us</h2>
+          <a href="/">Contact Support</a>
+          <a href="/">FAQs</a>
+          <a href="/">Feedback</a>
+        </div>
+        <div class="footer__link--items">
+          <h2>Social Media</h2>
+          <a href="/">Facebook</a>
+          <a href="/">Twitter</a>
+          <a href="/">Instagram</a>
+          <a href="/">YouTube</a>
+          <a href="/">LinkedIn</a>
+          <a href="/">Discord</a>
+        </div>
+      </div>
+    </div>
+    <div class="social__media">
+      <div class="social__media--wrap">
+        <a href="/" id="footer__logo">
+          <img src="images/2 long (1).png" alt="10 Dollar Portfolio Logo" class="footer-logo-long" style="height: 40px; vertical-align: middle;">
+          <img src="images/2 (1).png" alt="10 Dollar Portfolio Small Logo" class="footer-logo-small" style="height: 40px; vertical-align: middle; display: none;">
+        </a>
+        <div class="social__icons">
+          <a href="/" class="social__icon--link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="/" class="social__icon--link" target="_blank"><i class="fab fa-X"></i></a>
+          <a href="/" class="social__icon--link" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="/" class="social__icon--link" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="/" class="social__icon--link" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="/" class="social__icon--link" target="_blank"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+      <p class="website__rights">© 10$ Portfolio 2025. All rights reserved.</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
