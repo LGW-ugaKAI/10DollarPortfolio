@@ -707,7 +707,66 @@ font-size: 1rem;
 }
 
 @media screen and (max-width: 480px) {
+  .services__card p {
+      top: 330px; /* Move text up */
+      left: 20px;
+      font-size: 1rem;
+    }
+    .services__card button {
+      top: 380px; /* Move button below text */
+      left: 20px;
+      width: 80%; /* Make button fit better */
+      font-size: 1rem;
+    }
+    .services__card {
+      height: 450px; /* Reduce card height so positions fit */
+    }
 
+.services__card:nth-child(2) p {
+      top: 330px; /* Move text up */
+      left: 20px;
+      font-size: 1rem;
+    }
+    .services__card button {
+      top: 380px; /* Move button below text */
+      left: 20px;
+      width: 80%; /* Make button fit better */
+      font-size: 1rem;
+    }
+    .services__card {
+      height: 450px; /* Reduce card height so positions fit */
+    }
+
+  .services__card:nth-child(3) p {
+      top: 330px; /* Move text up */
+      left: 20px;
+      font-size: 1rem;
+    }
+    .services__card button {
+      top: 380px; /* Move button below text */
+      left: 20px;
+      width: 80%; /* Make button fit better */
+      font-size: 1rem;
+    }
+    .services__card {
+      height: 450px; /* Reduce card height so positions fit */
+    }
+
+  .services__card:nth-child(4) p {
+      top: 330px; /* Move text up */
+      left: 20px;
+      font-size: 1rem;
+    }
+    .services__card button {
+      top: 380px; /* Move button below text */
+      left: 20px;
+      width: 80%; /* Make button fit better */
+      font-size: 1rem;
+    }
+    .services__card {
+      height: 450px; /* Reduce card height so positions fit */
+    }
+  
     .services {
         height: 1400px;
 
