@@ -679,6 +679,16 @@ background-color: #141414;
 }
 
 @media screen and (max-width: 480px) {
+
+  .services h2 {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    width: auto;
+  }
+  
   .services__card p {
       top: 330px; /* Move text up */
       left: 20px;
