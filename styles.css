@@ -688,7 +688,22 @@ background-color: #141414;
     margin-bottom: 0.5rem;
     width: auto;
   }
-  
+
+  .services__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 450px; /* or your desired height */
+}
+
+.services__card h2 {
+  margin-bottom: 0.5rem;
+  position: static;   /* ensure not absolute */
+}
+
+.services__card > div {
+  margin-top: 0;
+}
   .services__card p {
       top: 330px; /* Move text up */
       left: 20px;
