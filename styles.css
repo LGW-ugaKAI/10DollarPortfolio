@@ -659,22 +659,21 @@ box-sizing: border-box;
 }
 
 .services__card p {
-    margin: 1rem 20px 0 20px;
-    font-size: 1rem;
-    position: static;
+  margin: 1rem 20px 0 20px;
+  font-size: 1rem;
+  position: static;
 }
-
 .services__card button {
-    display: block;
-    margin: 1rem 20px 1.5rem 20px;
-    width: 80%;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background: #38b6ff;
-    font-size: 1rem;
-    position: static;
+  display: block;
+  margin: 1rem 20px 1.5rem 20px;
+  width: 80%;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background: #38b6ff;
+  font-size: 1rem;
+  position: static;
 }
 
 
